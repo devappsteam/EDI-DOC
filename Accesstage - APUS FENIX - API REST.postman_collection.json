@@ -1,0 +1,1094 @@
+{
+  "info": {
+    "_postman_id": "b27099e4-a31f-4224-a46b-f057cd95c0db",
+    "name": "APUS FENIX - API REST",
+    "description": "# Documentação da API REST\n\n## Introdução\n\nBem-vindo à documentação da API REST desenvolvida para interação com nosso serviço. Essa API permite que você acesse e manipule recursos utilizando os princípios do estilo arquitetural REST (Representational State Transfer). Através dessa documentação, você encontrará informações essenciais para utilizar a API, incluindo endpoints disponíveis, parâmetros aceitos, códigos de status e exemplos de solicitações e respostas.\n\n## Visão Geral\n\n### Base URL\n\nA URL Produção base para todas as solicitações é: `https://apus.accesstage.com.br/v1`\n\nA URL Homologação base para todas as solicitações é: `https://apus.accesstage.com.br/v1`",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "47171249",
+    "_collection_link": "https://go.postman.co/collection/47171249-b27099e4-a31f-4224-a46b-f057cd95c0db?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "apus",
+          "item": [
+            {
+              "name": "v1",
+              "item": [
+                {
+                  "name": "upload",
+                  "item": [
+                    {
+                      "name": "file",
+                      "item": [
+                        {
+                          "name": "upload File",
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{access_token}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "multipart/form-data;",
+                                "disabled": true
+                              }
+                            ],
+                            "body": {
+                              "mode": "formdata",
+                              "formdata": [
+                                {
+                                  "key": "hash",
+                                  "value": "46070d4bf934fb0d4b06d9e2c46e346944e322444900a435d7d9a95e6d7435f5",
+                                  "type": "text"
+                                },
+                                {
+                                  "key": "file",
+                                  "type": "file",
+                                  "src": "postman-cloud:///1f06ef09-2f17-4730-bd0d-56759c5aba21"
+                                },
+                                {
+                                  "key": "compre",
+                                  "value": "",
+                                  "type": "text",
+                                  "disabled": true
+                                }
+                              ]
+                            },
+                            "url": {
+                              "raw": "{{baseUrlHom}}/api/apus/v1/:pdsid/upload",
+                              "host": [
+                                "{{baseUrlHom}}"
+                              ],
+                              "path": [
+                                "api",
+                                "apus",
+                                "v1",
+                                ":pdsid",
+                                "upload"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "pdsid",
+                                  "value": "172330679"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "name": "200 response",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "multipart/form-data;"
+                                  },
+                                  {
+                                    "key": "Authorization",
+                                    "value": "<API Key>",
+                                    "description": "Added as a part of security scheme: apikey"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"file\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/apus/v1/:pdsid/upload?hash=<string>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "apus",
+                                    "v1",
+                                    ":pdsid",
+                                    "upload"
+                                  ],
+                                  "query": [
+                                    {
+                                      "key": "hash",
+                                      "value": "<string>",
+                                      "description": "(Required) "
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "pdsid"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "multipart/form-data;"
+                                }
+                              ],
+                              "cookie": [],
+                              "body": "{\n  \"tracking\": \"<string>\",\n  \"date\": \"<dateTime>\",\n  \"file\": \"<string>\",\n  \"etag\": \"<string>\"\n}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "resubmit",
+                  "item": [
+                    {
+                      "name": "{tracking}",
+                      "item": [
+                        {
+                          "name": "resubmit",
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/apus/v1/resubmit/:tracking",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "apus",
+                                "v1",
+                                "resubmit",
+                                ":tracking"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "tracking",
+                                  "value": "009202307141739231628028"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "name": "200 response",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Authorization",
+                                    "value": "<API Key>",
+                                    "description": "Added as a part of security scheme: apikey"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/apus/v1/resubmit/:tracking",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "apus",
+                                    "v1",
+                                    "resubmit",
+                                    ":tracking"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "tracking"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "body": ""
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "list",
+                  "item": [
+                    {
+                      "name": "partnership",
+                      "item": [
+                        {
+                          "name": "List Partnership",
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{cognito_token}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrlHom}}/api/apus/v1/list/partnership",
+                              "host": [
+                                "{{baseUrlHom}}"
+                              ],
+                              "path": [
+                                "api",
+                                "apus",
+                                "v1",
+                                "list",
+                                "partnership"
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "name": "200 response",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Authorization",
+                                    "value": "<API Key>",
+                                    "description": "Added as a part of security scheme: apikey"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/apus/v1/list/partnership",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "apus",
+                                    "v1",
+                                    "list",
+                                    "partnership"
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "body": "[\n  {\n    \"pdsid\": \"<integer>\",\n    \"idPartner\": \"<string>\",\n    \"namePartner\": \"<string>\",\n    \"typeDocument\": \"<string>\",\n    \"document\": \"<string>\"\n  },\n  {\n    \"pdsid\": \"<integer>\",\n    \"idPartner\": \"<string>\",\n    \"namePartner\": \"<string>\",\n    \"typeDocument\": \"<string>\",\n    \"document\": \"<string>\"\n  }\n]"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "files",
+                      "item": [
+                        {
+                          "name": "List files",
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{access_token}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrlHom}}m}/api/apus/v1/list/files?from=2023-09-01&to=2023-09-01",
+                              "host": [
+                                "{{baseUrlHom}}m}"
+                              ],
+                              "path": [
+                                "api",
+                                "apus",
+                                "v1",
+                                "list",
+                                "files"
+                              ],
+                              "query": [
+                                {
+                                  "key": "from",
+                                  "value": "2023-09-01"
+                                },
+                                {
+                                  "key": "to",
+                                  "value": "2023-09-01"
+                                }
+                              ]
+                            }
+                          },
+                          "response": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "transactions",
+                      "item": [
+                        {
+                          "name": "List Transactions",
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{cognito_token}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrlHom}}/api/apus/v1/list/transactions?from=2024-09-17&to=2024-10-16",
+                              "host": [
+                                "{{baseUrlHom}}"
+                              ],
+                              "path": [
+                                "api",
+                                "apus",
+                                "v1",
+                                "list",
+                                "transactions"
+                              ],
+                              "query": [
+                                {
+                                  "key": "from",
+                                  "value": "2024-09-17"
+                                },
+                                {
+                                  "key": "to",
+                                  "value": "2024-10-16"
+                                }
+                              ]
+                            }
+                          },
+                          "response": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "download",
+                  "item": [
+                    {
+                      "name": "{tracking}",
+                      "item": [
+                        {
+                          "name": "download",
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{access_token}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrlProd}}/api/apus/v1/download/:tracking",
+                              "host": [
+                                "{{baseUrlProd}}"
+                              ],
+                              "path": [
+                                "api",
+                                "apus",
+                                "v1",
+                                "download",
+                                ":tracking"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "tracking",
+                                  "value": "9992023090121031989746894"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "name": "200 response",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Authorization",
+                                    "value": "<API Key>",
+                                    "description": "Added as a part of security scheme: apikey"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/apus/v1/download/:tracking",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "apus",
+                                    "v1",
+                                    "download",
+                                    ":tracking"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "tracking"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "body": ""
+                            },
+                            {
+                              "name": "download",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                  "raw": "{{baseUrlProd}}/api/apus/v1/download/:tracking",
+                                  "host": [
+                                    "{{baseUrlProd}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "apus",
+                                    "v1",
+                                    "download",
+                                    ":tracking"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "tracking",
+                                      "value": "9992023071823154973068059"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Date",
+                                  "value": "Tue, 18 Jul 2023 23:39:47 GMT"
+                                },
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                },
+                                {
+                                  "key": "Content-Length",
+                                  "value": "96"
+                                },
+                                {
+                                  "key": "Connection",
+                                  "value": "keep-alive"
+                                },
+                                {
+                                  "key": "x-amzn-RequestId",
+                                  "value": "7a32cd89-ae99-4d31-bc0c-7a37f3697c96"
+                                },
+                                {
+                                  "key": "X-XSS-Protection",
+                                  "value": "0"
+                                },
+                                {
+                                  "key": "Content-Disposition",
+                                  "value": "attachment; filename=\"9992023071823154973068059@50_D_TESTE-API-APUS.TXT\""
+                                },
+                                {
+                                  "key": "x-amzn-Remapped-Content-Length",
+                                  "value": "96"
+                                },
+                                {
+                                  "key": "X-Frame-Options",
+                                  "value": "DENY"
+                                },
+                                {
+                                  "key": "x-amzn-Remapped-Connection",
+                                  "value": "keep-alive"
+                                },
+                                {
+                                  "key": "x-amz-apigw-id",
+                                  "value": "ISJeBHGhmjQEAeA="
+                                },
+                                {
+                                  "key": "Cache-Control",
+                                  "value": "no-cache, no-store, max-age=0, must-revalidate"
+                                },
+                                {
+                                  "key": "Expires",
+                                  "value": "0"
+                                },
+                                {
+                                  "key": "X-Content-Type-Options",
+                                  "value": "nosniff"
+                                },
+                                {
+                                  "key": "Accept-Ranges",
+                                  "value": "bytes"
+                                },
+                                {
+                                  "key": "Pragma",
+                                  "value": "no-cache"
+                                },
+                                {
+                                  "key": "x-amzn-Remapped-Date",
+                                  "value": "Tue, 18 Jul 2023 23:39:47 GMT"
+                                }
+                              ],
+                              "cookie": [],
+                              "body": "\nrewqrewr\n\nrwe\nqr\nqewr\nwre\nr\nqew\nrw\nqr\nqew\nrqew\nr\nwe\nrqew\nr\nqewr\nqew\nr\nqewr\nwe\nrqew\nrqwgdfsgdfs\n"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "auth",
+                  "item": [
+                    {
+                      "name": "token",
+                      "item": [
+                        {
+                          "name": "/api/apus/v1/auth",
+                          "event": [
+                            {
+                              "listen": "test",
+                              "script": {
+                                "exec": [
+                                  "pm.test(\"Status code is 200\", () => {",
+                                  "    pm.response.to.have.status(200);",
+                                  "});",
+                                  "",
+                                  "const response = pm.response.json();",
+                                  "",
+                                  "pm.test(\"Body has access_token\", () => {",
+                                  "    pm.expect(response).to.have.property('access_token');",
+                                  "});",
+                                  "",
+                                  "pm.globals.set('cognito_token', response.access_token);"
+                                ],
+                                "type": "text/javascript",
+                                "packages": {}
+                              }
+                            }
+                          ],
+                          "request": {
+                            "auth": {
+                              "type": "basic",
+                              "basic": [
+                                {
+                                  "key": "password",
+                                  "value": "n4gm86h810u5iod8snn1e6g1qnmcgp9vsvkbjncov2ufneirplo",
+                                  "type": "string"
+                                },
+                                {
+                                  "key": "username",
+                                  "value": "6pbb7dimtlubrsbo5sv1j41pkc",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "X-Amz-Target",
+                                "value": "AWSCognitoIdentityProviderService.InitiateAuth",
+                                "type": "text",
+                                "disabled": true
+                              },
+                              {
+                                "key": "Content-Type",
+                                "value": "application/x-amz-json-1.1",
+                                "type": "text",
+                                "disabled": true
+                              }
+                            ],
+                            "body": {
+                              "mode": "urlencoded",
+                              "urlencoded": [
+                                {
+                                  "key": "grant_type",
+                                  "value": "client_credentials",
+                                  "type": "text"
+                                }
+                              ]
+                            },
+                            "url": {
+                              "raw": "{{baseUrlProd}}/api/apus/v1/auth",
+                              "host": [
+                                "{{baseUrlProd}}"
+                              ],
+                              "path": [
+                                "api",
+                                "apus",
+                                "v1",
+                                "auth"
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "name": "200 response",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/apus/v1/auth",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "apus",
+                                    "v1",
+                                    "auth"
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "body": ""
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "document",
+                  "item": [
+                    {
+                      "name": "download",
+                      "item": [
+                        {
+                          "name": "download",
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{cognito_token}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrlHom}}/api/apus/v1/document/download/:tracking",
+                              "host": [
+                                "{{baseUrlHom}}"
+                              ],
+                              "path": [
+                                "api",
+                                "apus",
+                                "v1",
+                                "document",
+                                "download",
+                                ":tracking"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "tracking",
+                                  "value": "9992023090121220689750037"
+                                }
+                              ]
+                            }
+                          },
+                          "response": []
+                        }
+                      ]
+                    },
+                    {
+                      "name": "upload",
+                      "item": [
+                        {
+                          "name": "upload_pag",
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{cognito_token}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "POST",
+                            "header": [],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n    \"data\": [\n        {\n            \"campo\": \"teste\",\n            \"campo1\": \"teste\",\n            \"campo2\": \"teste\"\n        },\n        {\n            \"campo\": \"teste1\",\n            \"campo1\": \"teste2\",\n            \"campo2\": \"teste3\"\n        }\n    ]\n}",
+                              "options": {
+                                "raw": {
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrlHom}}/api/apus/v1/document/upload/:pdsid",
+                              "host": [
+                                "{{baseUrlHom}}"
+                              ],
+                              "path": [
+                                "api",
+                                "apus",
+                                "v1",
+                                "document",
+                                "upload",
+                                ":pdsid"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "pdsid",
+                                  "value": "170328679"
+                                }
+                              ]
+                            }
+                          },
+                          "response": []
+                        },
+                        {
+                          "name": "upload_cob",
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{cognito_token}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "POST",
+                            "header": [],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n    \"cobrança\": [\n        {\n      \"cnpjCpfBeneficiario\": \"30248458000125\",\n      \"agenciaBeneficiario\": \"2938\",\n      \"contaBeneficiario\": \"0048467\",\n      \"digitoBeneficiario\": \"8\",\n      \"aceiteTitulo\": \"S\",\n      \"cnpjCpfPagador\": \"13504675000110\",\n      \"nomePagador\": \"OLA TESTE2\",\n      \"logradouroPagador\": \"RUA DO PAGADOR\",\n      \"bairroPagador\": \"NOVO TESTE\",\n      \"cidadePagador\": \"sao paulo\",\n      \"ufPagador\": \"SP\",\n      \"cepPagador\": \"06429290\",\n      \"carteira\": \"09\",\n      \"especie\": \"01\",\n      \"dataEmissao\": \"2023-03-15\",\n      \"dataVencimento\": \"2023-04-17\",\n      \"dataLimite\": \"2023-01-09\",\n      \"valor\": \"00000000298869264\",\n      \"seuNumero\": \"0005732201\",\n      \"dataJuros\": \"\",\n      \"tipoJuros\": 5,\n      \"valorJuros\": \"\",\n      \"percentualJuros\": \"\",\n      \"dataMulta\": \"\",\n      \"tipoMulta\": \"3\",\n      \"valorMulta\": \"\",\n      \"percentualMulta\": \"\"\n    }\n        \n    ]\n}",
+                              "options": {
+                                "raw": {
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrlHom}}/api/apus/v1/document/upload/:pdsid",
+                              "host": [
+                                "{{baseUrlHom}}"
+                              ],
+                              "path": [
+                                "api",
+                                "apus",
+                                "v1",
+                                "document",
+                                "upload",
+                                ":pdsid"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "pdsid",
+                                  "value": "170328679"
+                                }
+                              ]
+                            }
+                          },
+                          "response": []
+                        },
+                        {
+                          "name": "upload_debaut",
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{cognito_token}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "POST",
+                            "header": [],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n    \"cobrança\": [\n        {\n      \"cnpjCpfBeneficiario\": \"30248458000125\",\n      \"agenciaBeneficiario\": \"2938\",\n      \"contaBeneficiario\": \"0048467\",\n      \"digitoBeneficiario\": \"8\",\n      \"aceiteTitulo\": \"S\",\n      \"cnpjCpfPagador\": \"13504675000110\",\n      \"nomePagador\": \"OLA TESTE2\",\n      \"logradouroPagador\": \"RUA DO PAGADOR\",\n      \"bairroPagador\": \"NOVO TESTE\",\n      \"cidadePagador\": \"sao paulo\",\n      \"ufPagador\": \"SP\",\n      \"cepPagador\": \"06429290\",\n      \"carteira\": \"09\",\n      \"especie\": \"01\",\n      \"dataEmissao\": \"2023-03-15\",\n      \"dataVencimento\": \"2023-04-17\",\n      \"dataLimite\": \"2023-01-09\",\n      \"valor\": \"00000000298869264\",\n      \"seuNumero\": \"0005732201\",\n      \"dataJuros\": \"\",\n      \"tipoJuros\": 5,\n      \"valorJuros\": \"\",\n      \"percentualJuros\": \"\",\n      \"dataMulta\": \"\",\n      \"tipoMulta\": \"3\",\n      \"valorMulta\": \"\",\n      \"percentualMulta\": \"\"\n    }\n        \n    ]\n}",
+                              "options": {
+                                "raw": {
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrlHom}}/api/apus/v1/document/upload/:pdsid",
+                              "host": [
+                                "{{baseUrlHom}}"
+                              ],
+                              "path": [
+                                "api",
+                                "apus",
+                                "v1",
+                                "document",
+                                "upload",
+                                ":pdsid"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "pdsid",
+                                  "value": "170328679"
+                                }
+                              ]
+                            }
+                          },
+                          "response": []
+                        },
+                        {
+                          "name": "baixa_cob",
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{cognito_token}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "POST",
+                            "header": [],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n    \"cobrança\": [\n        {\n      \"cnpjCpfBeneficiario\": \"30248458000125\",\n      \"agenciaBeneficiario\": \"2938\",\n      \"contaBeneficiario\": \"0048467\",\n      \"digitoBeneficiario\": \"8\",\n      \"aceiteTitulo\": \"S\",\n      \"cnpjCpfPagador\": \"13504675000110\",\n      \"nomePagador\": \"OLA TESTE2\",\n      \"logradouroPagador\": \"RUA DO PAGADOR\",\n      \"bairroPagador\": \"NOVO TESTE\",\n      \"cidadePagador\": \"sao paulo\",\n      \"ufPagador\": \"SP\",\n      \"cepPagador\": \"06429290\",\n      \"carteira\": \"09\",\n      \"especie\": \"01\",\n      \"dataEmissao\": \"2023-03-15\",\n      \"dataVencimento\": \"2023-04-17\",\n      \"dataLimite\": \"2023-01-09\",\n      \"valor\": \"00000000298869264\",\n      \"seuNumero\": \"0005732201\",\n      \"dataJuros\": \"\",\n      \"tipoJuros\": 5,\n      \"valorJuros\": \"\",\n      \"percentualJuros\": \"\",\n      \"dataMulta\": \"\",\n      \"tipoMulta\": \"3\",\n      \"valorMulta\": \"\",\n      \"percentualMulta\": \"\"\n    }\n        \n    ]\n}",
+                              "options": {
+                                "raw": {
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrlHom}}/api/apus/v1/document/upload/:pdsid",
+                              "host": [
+                                "{{baseUrlHom}}"
+                              ],
+                              "path": [
+                                "api",
+                                "apus",
+                                "v1",
+                                "document",
+                                "upload",
+                                ":pdsid"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "pdsid",
+                                  "value": "170328679"
+                                }
+                              ]
+                            }
+                          },
+                          "response": []
+                        },
+                        {
+                          "name": "New Request",
+                          "request": {
+                            "method": "GET",
+                            "header": []
+                          },
+                          "response": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "https://apus.accesstage.com.br/api/apus/v1/auth",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Basic NXVuMm03YmhiYmMxNzEwaTFvNTNibmcxZ246MXU1dWl0OTJsbDU2ODE1c2RnNDFrY3VjZjNidjdpc3Q4MTdxa2tpZzdhYnAybDJncGVzag=="
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "type": "text",
+              "key": "grant_type",
+              "value": "client_credentials"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://apus.accesstage.com.br/api/apus/v1/auth",
+          "protocol": "https",
+          "host": [
+            "apus",
+            "accesstage",
+            "com",
+            "br"
+          ],
+          "path": [
+            "api",
+            "apus",
+            "v1",
+            "auth"
+          ]
+        },
+        "description": "Generated from cURL: curl --request POST \\\n --url https://apus.accesstage.com.br/api/apus/v1/auth \\\n --header 'Authorization: Basic NXVuMm03YmhiYmMxNzEwaTFvNTNibmcxZ246MXU1dWl0OTJsbDU2ODE1c2RnNDFrY3VjZjNidjdpc3Q4MTdxa2tpZzdhYnAybDJncGVzag==' \\\n --header 'Content-Type: application/x-www-form-urlencoded' \\\n --data grant_type=client_credentials\n "
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "password",
+        "value": "1v1ir1t069vc7mv8km9m6fc2m1mmij8hhg58a4p907vn3fgcn56v",
+        "type": "string"
+      },
+      {
+        "key": "username",
+        "value": "4vqnhorqmebafi5ipcigfa3o6t",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          "pm.test(\"Status code is 200\", () => {",
+          "    pm.response.to.have.status(200);",
+          "});",
+          "",
+          "const response = pm.response.json();",
+          "",
+          "pm.test(\"Body has access_token\", () => {",
+          "    pm.expect(response).to.have.property('access_token');",
+          "});",
+          "",
+          "pm.globals.set('access_token', response.access_token);"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrlHom",
+      "value": "https://apus-hml.accesstage.com.br"
+    },
+    {
+      "key": "baseUrlProd",
+      "value": "https://apus.accesstage.com.br"
+    },
+    {
+      "key": "baseUrlLocal",
+      "value": "http://localhost:30000"
+    }
+  ]
+}
