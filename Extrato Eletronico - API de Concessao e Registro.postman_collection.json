@@ -1,0 +1,1277 @@
+{
+	"info": {
+		"_postman_id": "62de3a3e-8a32-4d41-8aec-51e17a4a5dc6",
+		"name": "Extrato Eletronico - API de Concessão e Registro",
+		"description": "Conjunto de APIs para processo de Onboarding e Manutenção de Extrato Eletrônico (EDI) na Cielo.\n\nO authorization code retornado pelo Customer Consent Flow deve ser passado ao serviço Access Token Consent (ordenado como primeiro desta collection) para que ele possa gerar o access_token, que será utilizado pelos demais.\n\nTodas as variáveis utilizadas foram criadas no scope collection e devem ser preenchidas de acordo com os valores repassados pela Cielo de acordo com a necessidade da chamada.\n\nNa descrição de cada um dos serviços estão maiores detalhes sobre a chamada e variáveis envolvidas. Em cada serviço também existem exemplos das principais variações nas chamadas.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Access Token Consent - consent/v1/oauth/access-token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Basic NzRmZDJiYzMtYzFhMi0zMzBlLTlmM2EtOGUzMWY3ZDQ2MzM5OjRlZmNiNTc1LTkyN2ItMzZiMC1iY2EzLTJiZmJjNDBjMDVkNA=="
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"grant_type\": \"authorization_code\",\r\n    \"code\": \"d55b8c23-a2c3-334a-b2fc-89472351b18f\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/consent/v1/oauth/access-token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"consent",
+						"v1",
+						"oauth",
+						"access-token"
+					]
+				},
+				"description": "Serviço que realiza o consumo do Authorization Code retornado via callback pelo Customer Consent Flow e realiza a criação do access_token, que é necessário para acesso aos demais serviços. \nO refresh_token também é criado neste serviço e deve ser armazenado para que se obtenha um novo access_token quando este expirar (1 dia) sem a necessidade de novo consentimento do cliente.\nVáriaveis utilizadas: {{client_secret_base_64}} (autenticação do parceiro, no header) e {{authorization_code}} (retornado via callback pelo Customer Consent Flow, no body)."
+			},
+			"response": [
+				{
+					"name": "Exemplo de retorno",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Basic {{client_secret_base_64}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"grant_type\": \"authorization_code\",\r\n    \"code\": \"{{authorization_code}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/consent/v1/oauth/access-token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"consent",
+								"v1",
+								"oauth",
+								"access-token"
+							]
+						}
+					},
+					"_postman_previewlanguage": "Text",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n    \"access_token\": \"e118224d-e059-3097-8250-dd2cc26b8218\",\r\n    \"refresh_token\": \"bcdea3b5-8ea6-3a39-b34b-fad41d0b17bh\",\r\n    \"token_type\": \"access_token\",\r\n    \"expires_in\": 86400\r\n}"
+				}
+			]
+		},
+		{
+			"name": "Listagem de filiais - edi-api/v2/edi/merchantgroup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/edi-api/v2/edi/merchantgroup",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"edi-api",
+						"v2",
+						"edi",
+						"merchantgroup"
+					],
+					"query": [
+						{
+							"key": "branchStatus",
+							"value": "UNAVAILABLE",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Realiza a listagem dos clientes (matriz e filiais) abaixo do access_token informado.\n\nPode ser utilizado o filtro (não obrigatório) para listar somente os Disponíveis (AVAILABLE) ou os Indisponíveis (UNAVAILABLE). Estar indisponível significa que a filial já participa de outro cadastramento EDI, devendo ser retirado deste antes de poder compor um novo. Nos serviços de credenciamento e edição, há validação para permitir que somente os disponíveis sejam informados.\n\nVáriaveis utilizadas: {{access_token}} (no header)."
+			},
+			"response": [
+				{
+					"name": "Listagem dos disponíveis somente",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/edi-api/v2/edi/merchantgroup?branchStatus=AVAILABLE",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"edi-api",
+								"v2",
+								"edi",
+								"merchantgroup"
+							],
+							"query": [
+								{
+									"key": "branchStatus",
+									"value": "AVAILABLE"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "x-session-id",
+							"value": "506312c6-a87e-4b7d-9d04-36e184e3b307"
+						},
+						{
+							"key": "x-frame-options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "x-xss-protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "strict-transport-security",
+							"value": "max-age=31536000; includeSubdomains;"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "180"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 05 Mar 2020 19:02:11 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"legalEntityNumber\": \"99906385\",\n    \"branches\": [\n        {\n            \"merchantID\": \"2000463031\",\n            \"legalEntityNumber\": \"99.906.385/0003-80\",\n            \"businessName\": \"PJ04541 - CONVIVÊNCIA FINC\",\n            \"status\": \"AVAILABLE\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "Listagem completa (sem filtro)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/edi-api/v2/edi/merchantgroup",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"edi-api",
+								"v2",
+								"edi",
+								"merchantgroup"
+							],
+							"query": [
+								{
+									"key": "branchStatus",
+									"value": "AVAILABLE",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"legalEntityNumber\": \"99906385\",\n    \"branches\": [\n        {\n            \"merchantID\": \"2000463015\",\n            \"legalEntityNumber\": \"99.906.385/0001-18\",\n            \"businessName\": \"ANTIGA RAZAO SOCIAL\",\n            \"status\": \"UNAVAILABLE\"\n        },\n        {\n            \"merchantID\": \"2000463023\",\n            \"legalEntityNumber\": \"99.906.385/0002-07\",\n            \"businessName\": \"PJ04541 - CONVIVÊNCIA FINC\",\n            \"status\": \"UNAVAILABLE\"\n        },\n        {\n            \"merchantID\": \"2000463031\",\n            \"legalEntityNumber\": \"99.906.385/0003-80\",\n            \"businessName\": \"PJ04541 - CONVIVÊNCIA FINC\",\n            \"status\": \"AVAILABLE\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "Listagem dos indisponíveis somente",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/edi-api/v2/edi/merchantgroup?branchStatus=UNAVAILABLE",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"edi-api",
+								"v2",
+								"edi",
+								"merchantgroup"
+							],
+							"query": [
+								{
+									"key": "branchStatus",
+									"value": "UNAVAILABLE"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "x-session-id",
+							"value": "d8580ae9-1173-498f-9a80-bdfb8645caef"
+						},
+						{
+							"key": "x-frame-options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "x-xss-protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "strict-transport-security",
+							"value": "max-age=31536000; includeSubdomains;"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "311"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 05 Mar 2020 19:03:12 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"legalEntityNumber\": \"99906385\",\n    \"branches\": [\n        {\n            \"merchantID\": \"2000463015\",\n            \"legalEntityNumber\": \"99.906.385/0001-18\",\n            \"businessName\": \"ANTIGA RAZAO SOCIAL\",\n            \"status\": \"UNAVAILABLE\"\n        },\n        {\n            \"merchantID\": \"2000463023\",\n            \"legalEntityNumber\": \"99.906.385/0002-07\",\n            \"businessName\": \"PJ04541 - CONVIVÊNCIA FINC\",\n            \"status\": \"UNAVAILABLE\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Credenciamento de EDI - edi-api/v2/edi/registers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"merchantEMail\": \"{{merchant_email}}\",\r\n  \"type\": [\"SELL\", \"PAYMENT\", \"BALANCE\", \"NRC\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/edi-api/v2/edi/registers",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"edi-api",
+						"v2",
+						"edi",
+						"registers"
+					]
+				},
+				"description": "Realiza o cadastramento dos clientes do grupo comercial.\n\nExistem validações com relação às necessidades dos clientes estarem disponíveis para o credenciamento e também pertencerem ao cadastro da mesma raiz de CNPJ do grupo informado.\n\nO serviço permite algumas customizações:\n- Cadastrar no nível de grupo comercial: todos os clientes serão cadastrados e, em caso de crescimento deste grupo por conta de novas filiais, esta é incluída automaticamente no grupo. Para que se escolha essa opção, o parâmetro \"merchants\" não deve ser informado ou deve estar vazio.\n- Escolher clientes (filiais) para o grupo: somente os clientes escolhidos no atributo \"merchants\" serão cadastrados e em casos de novas filiais no grupo, estas não passarão a compor automaticamente este cadastro. Atentar-se que, mesmo que todos os clientes atuais sejam informados no atributo \"merchants\", este será sinalizado como \"clientes escolhidos\" e não absorverão filiais futuras.\n- Tipos de arquivo: é possível escolher os tipos de arquivos que serão recebidos na caixa postal. Ao menos um dos 3  seguir é obrigatório de ser informado: SELL, PAYMENT ou ANTECIPATION_CIELO. O domínio do campo é composto de SELL [Vendas (com comprovante e plano parcelado)], PAYMENT [Pagamentos (Com comprovante)], ANTECIPATION_CIELO [Antecipação Cielo (Com comprovante)], ASSIGNMENT [Cessão de recebiveis (Bradesco)], BALANCE [Saldo em aberto] e  [Antecipação Alelo (Com comprovante)]\n\nVáriaveis utilizadas: {{access_token}} (no header) e {{merchant_email}} (email do cliente, no body). O email do cliente é solicitado para que ele possa receber as instruções de acesso ao Portal EDI da Cielo, quando ocorrer a criação da caixa postal."
+			},
+			"response": [
+				{
+					"name": "Exemplo de erro de validação - Clientes indisponíveis",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"merchantEMail\": \"{{merchant_email}}\",\r\n  \"type\": [\"SELL\", \"PAYMENT\", \"BALANCE\", \"NRC\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/edi-api/v2/edi/registers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"edi-api",
+								"v2",
+								"edi",
+								"registers"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "x-session-id",
+							"value": "65fbabf2-041e-4be2-848d-6f9b278e8fb8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "164"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 05 Mar 2020 19:30:55 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": \"02\",\n    \"message\": \"These clients are not available to compose a new group:2000463023,2000463015,2000463031\",\n    \"sessionId\": \"65fbabf2-041e-4be2-848d-6f9b278e8fb8\"\n}"
+				},
+				{
+					"name": "Exemplo de sucesso - Todos os clientes",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"merchantEMail\": \"{{merchant_email}}\",\r\n  \"type\": [\"SELL\", \"PAYMENT\", \"BALANCE\", \"NRC\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/edi-api/v2/edi/registers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"edi-api",
+								"v2",
+								"edi",
+								"registers"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "x-session-id",
+							"value": "a7796186-618c-4e1e-bbda-f74435e8fd3c"
+						},
+						{
+							"key": "x-frame-options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "x-xss-protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "strict-transport-security",
+							"value": "max-age=31536000; includeSubdomains;"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "249"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 05 Mar 2020 19:30:29 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"legalEntityNumber\": \"99906385\",\n    \"mainMerchantId\": \"2000463015\",\n    \"registerID\": \"37754\",\n    \"merchants\": [\n        \"2000463015\",\n        \"2000463023\",\n        \"2000463031\"\n    ],\n    \"type\": [\n        \"SELL\",\n        \"PAYMENT\",\n        \"BALANCE\",\n        \"NRC\"\n    ],\n    \"status\": \"PROCESSING\"\n}"
+				},
+				{
+					"name": "Exemplo de sucesso - Escolha parcial de clientes",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"merchantEMail\": \"{{merchant_email}}\",\r\n  \"merchants\": [\"2000463015\", \"2000463023\"],\r\n  \"type\": [\"SELL\", \"PAYMENT\", \"BALANCE\", \"NRC\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/edi-api/v2/edi/registers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"edi-api",
+								"v2",
+								"edi",
+								"registers"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "x-session-id",
+							"value": "b00250b6-baf9-4467-b3fe-db68b4471712"
+						},
+						{
+							"key": "x-frame-options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "x-xss-protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "strict-transport-security",
+							"value": "max-age=31536000; includeSubdomains;"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "236"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 05 Mar 2020 19:33:19 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"legalEntityNumber\": \"99906385\",\n    \"mainMerchantId\": \"2000463015\",\n    \"registerID\": \"37755\",\n    \"merchants\": [\n        \"2000463015\",\n        \"2000463023\"\n    ],\n    \"type\": [\n        \"SELL\",\n        \"PAYMENT\",\n        \"BALANCE\",\n        \"NRC\"\n    ],\n    \"status\": \"PROCESSING\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Status da infraestrutura de Caixa Postal - edi-api/v2/edi/registers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/edi-api/v2/edi/registers/{{register_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"edi-api",
+						"v2",
+						"edi",
+						"registers",
+						"{{register_id}}"
+					]
+				},
+				"description": "Confirma o status de criação da estrutura de caixa postal de um credenciamento através do atributo \"status\", que pode receber as informações PROCESSING e COMPLETED. Quando o status virar COMPLETED, significa que a partir do dia seguinte os arquivos já se encontrarão disponíveis na caixa postal da conciliadora.\n\nOutras informações também são listadas para que se possa confirmar se as filiais escolhidas refletiram corretamente.\n\nVáriaveis utilizadas: {{access_token}} (no header) e {{register_id}} (na request)."
+			},
+			"response": [
+				{
+					"name": "Exemplo de chamada",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/edi-api/v2/edi/registers/{{register_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"edi-api",
+								"v2",
+								"edi",
+								"registers",
+								"{{register_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "x-session-id",
+							"value": "771f7471-1d76-4151-a56b-94338e0aa75b"
+						},
+						{
+							"key": "x-frame-options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "x-xss-protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "strict-transport-security",
+							"value": "max-age=31536000; includeSubdomains;"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "128"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 05 Mar 2020 20:53:05 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"legalEntityNumber\": \"99906385\",\n    \"registerID\": \"37756\",\n    \"merchants\": [\n        \"2000463015\",\n        \"2000463023\",\n        \"2000463031\"\n    ],\n    \"status\": \"PROCESSING\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Consulta de Cadastro de EDI - edi-api/v2/edi/",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/edi-api/v2/edi?registerID={{register_id}}&mainMerchantID={{main_merchant_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"edi-api",
+						"v2",
+						"edi"
+					],
+					"query": [
+						{
+							"key": "registerID",
+							"value": "{{register_id}}"
+						},
+						{
+							"key": "mainMerchantID",
+							"value": "{{main_merchant_id}}"
+						}
+					]
+				},
+				"description": "Realiza a consulta de um registro EDI e serve de apoio para o serviço de edição\n\nPode ser consultado utilizando o registerId (retorno da API) ou matriz de extrato (casos anteriores à API). Informar ao menos um deles é obrigatório.\n\nVáriaveis utilizadas: {{access_token}} (no header), {{register_id}} (no param) e main_merchant_id (no param)."
+			},
+			"response": [
+				{
+					"name": "Exemplo de chamada",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/edi-api/v2/edi?registerID={{register_id}}&mainMerchantID={{main_merchant_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"edi-api",
+								"v2",
+								"edi"
+							],
+							"query": [
+								{
+									"key": "registerID",
+									"value": "{{register_id}}"
+								},
+								{
+									"key": "mainMerchantID",
+									"value": "{{main_merchant_id}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "x-session-id",
+							"value": "b8dc7851-4022-4d3a-9fdb-19df56221ab5"
+						},
+						{
+							"key": "x-frame-options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "x-xss-protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "strict-transport-security",
+							"value": "max-age=31536000; includeSubdomains;"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "253"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 05 Mar 2020 20:57:47 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"legalEntityNumber\": \"99906385\",\n    \"mainMerchantId\": \"2000463015\",\n    \"registerID\": \"37756\",\n    \"merchants\": [\n        \"2000463015\",\n        \"2000463023\",\n        \"2000463031\"\n    ],\n    \"type\": [\n        \"SELL\",\n        \"PAYMENT\",\n        \"BALANCE\",\n        \"NRC\"\n    ],\n    \"acknowledge\": \"COMPLETED\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Edição de Cadastro de EDI - edi-api/v2/edi/",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"mainMerchantID\": \"{{main_merchant_id}}\",\n\t\"registerID\": \"{{register_id}}\",\n\t    \"merchants\": [\n        \"2000463015\",\n        \"2000463023\"\n    ],\n\t \"type\": [\"SELL\", \"NRC\"]\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/edi-api/v2/edi",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"edi-api",
+						"v2",
+						"edi"
+					]
+				},
+				"description": "Realiza a edição de um registro EDI e serve de apoio para o serviço de edição\r\n\r\nPode ser chamado utilizando o registerId (retorno da API) ou matriz de extrato (casos anteriores à API). Informar ao menos um deles é obrigatório.\r\n\r\nObservar que deve ser informado o status em que se deseja deixar o registro. Atentar-se aos pontos:\r\n- Informar sem o atributo \"merchants\": aplica-se a mesma regra do credenciamento, onde todas as filiais serão consideradas.\r\n- Informar com clientes no atributo significa que o grupo irá passar a conter somente aquelas filiais informadas. É desta forma possível a inclusão e exclusão de filiais.\r\n- Informar a listagem de arquivos completa que se deseja manter. Ex: No cadastro atual consta somente o arquivo SELL e deseja-se incorporar também o arquivo PAYMENT, deve-se então listar os dois arquivos [\"SELL\", \"PAYMENT\"] no atributo type. Caso somente o arquivo \"PAYMENT\" seja informado, o arquivo SELL deixará de ser gerado.\r\n\r\nAs validações de disponibilidade e de integridade do grupo são as mesmas do serviço de inclusão.\r\n\r\nVáriaveis utilizadas: {{access_token}} (no header), {{register_id}} (no param) e main_merchant_id (no param)."
+			},
+			"response": [
+				{
+					"name": "Exemplo de chamada",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"mainMerchantID\": \"{{main_merchant_id}}\",\n\t\"registerID\": \"{{register_id}}\",\n\t    \"merchants\": [\n        \"2000463015\",\n        \"2000463023\"\n    ],\n\t \"type\": [\"SELL\", \"NRC\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/edi-api/v2/edi",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"edi-api",
+								"v2",
+								"edi"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "x-session-id",
+							"value": "c340c393-d8f8-4ba3-8a01-0a02c5d4860f"
+						},
+						{
+							"key": "x-frame-options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "x-xss-protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "strict-transport-security",
+							"value": "max-age=31536000; includeSubdomains;"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "152"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 05 Mar 2020 21:08:42 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"legalEntityNumber\": \"99906385\",\n    \"mainMerchantID\": \"2000463015\",\n    \"registerID\": \"37756\",\n    \"merchants\": [\n        \"2000463015\",\n        \"2000463023\"\n    ],\n    \"type\": [\n        \"SELL\",\n        \"NRC\"\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Exclusão de Cadastro de EDI - edi-api/v2/edi/",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer {{access_token}}"
+					},
+					{
+						"key": "mainMerchantID",
+						"type": "text",
+						"value": "{{main_merchant_id}}"
+					},
+					{
+						"key": "registerID",
+						"type": "text",
+						"value": "{{register_id}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/edi-api/v2/edi",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"edi-api",
+						"v2",
+						"edi"
+					]
+				},
+				"description": "Realiza a exclusão de um registro EDI. Esta operação não poderá ser desfeita e passará a não ser mais retornado no serviço de consulta.\r\n\r\nPode ser consultado utilizando o registerId (retorno da API) ou matriz de extrato (casos anteriores à API). Informar ao menos um deles é obrigatório.\r\n\r\nApós a exclusão de um registro que contém o cliente, este torna-se disponível para novos credenciamentos.\r\n\r\nVáriaveis utilizadas: {{access_token}}, {{register_id}} e main_merchant_id (todos no header)."
+			},
+			"response": [
+				{
+					"name": "Exemplo de chamada",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "mainMerchantID",
+								"type": "text",
+								"value": "{{main_merchant_id}}"
+							},
+							{
+								"key": "registerID",
+								"type": "text",
+								"value": "{{register_id}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/edi-api/v2/edi",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"edi-api",
+								"v2",
+								"edi"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx"
+						},
+						{
+							"key": "x-session-id",
+							"value": "5fba3a2b-38f1-4228-a8e2-0cc186f68042"
+						},
+						{
+							"key": "x-frame-options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "x-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "x-xss-protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "strict-transport-security",
+							"value": "max-age=31536000; includeSubdomains;"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "109"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 05 Mar 2020 21:11:04 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"legalEntityNumber\": \"99906385\",\n    \"mainMerchantId\": \"2000463015\",\n    \"registerID\": \"37756\",\n    \"acknowledge\": \"COMPLETED\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Refresh Token Consent - consent/v1/oauth/access-token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Basic NzRmZDJiYzMtYzFhMi0zMzBlLTlmM2EtOGUzMWY3ZDQ2MzM5OjRlZmNiNTc1LTkyN2ItMzZiMC1iY2EzLTJiZmJjNDBjMDVkNA=="
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"grant_type\": \"refresh_token\",\r\n    \"refresh_token\": \"27764758-9204-3828-b4f6-97f6229357ff\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/consent/v1/oauth/access-token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"consent",
+						"v1",
+						"oauth",
+						"access-token"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Exemplo de retorno",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Basic {{client_secret_base_64}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"grant_type\": \"authorization_code\",\r\n    \"code\": \"{{authorization_code}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/consent/v1/oauth/access-token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"consent",
+								"v1",
+								"oauth",
+								"access-token"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"e118224d-e059-3097-8250-dd2cc26b8218\",\n    \"refresh_token\": \"bcdea3b5-8ea6-3a39-b34b-fad41d0b17bh\",\n    \"token_type\": \"access_token\",\n    \"expires_in\": 86400\n}"
+				}
+			]
+		},
+		{
+			"name": "Configurações existentes - edi-api/v2/edi/mainmerchants",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/edi-api/v2/edi/mainmerchants",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"edi-api",
+						"v2",
+						"edi",
+						"mainmerchants"
+					]
+				},
+				"description": "Através deste GET é possível saber se você poderá ou não fazer a duplicação de matriz, se o editStatus retornar \"UNAVAILABLE\" é necessário acionar o time de EDI (edi@cielo.com.br) e solicitar a duplicação manualmente, mas caso o editStatus retornar \"AVAILABLE\", será necessário fazer a chamada de PUT, informar o registerID, mainMerchantId e as demais filiais nessa chamada. Lembrando que é por objeto, se um objeto retornar \"AVAILABLE\" e o outro \"UNAVAILABLE\", você irá fazer a chamada de PUT para um e o outro você irá acionar o time de EDI."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://api2.cielo.com.br/sandbox"
+		},
+		{
+			"key": "authorization_code",
+			"value": ""
+		},
+		{
+			"key": "client_secret_base_64",
+			"value": ""
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "merchant_email",
+			"value": "teste@cielo.com.br"
+		},
+		{
+			"key": "register_id",
+			"value": "37756"
+		},
+		{
+			"key": "main_merchant_id",
+			"value": "2000463015"
+		}
+	]
+}
